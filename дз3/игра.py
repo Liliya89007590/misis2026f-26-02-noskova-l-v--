@@ -39,7 +39,7 @@ class ListMazeGame:
         self.exit_pos = (5, 5)
         
     def generate_maze(self) -> None:
-        """Генерация лабиринта со случайными комнатами"""
+        "Генерация лабиринта со случайными комнатами"
         n, m = self.maze_size
         self.maze = []
         
@@ -63,7 +63,7 @@ class ListMazeGame:
         self.visited_rooms.append("старт")
         
     def _generate_room_items(self, room_type: str) -> List[str]:
-        """Генерация предметов в комнате в зависимости от типа"""
+        "Генерация предметов в комнате в зависимости от типа"
         items_lists = {
             "сундук": [["золото", "серебро", "изумруд"], ["свиток", "карта", "ключ"]],
             "монстр": [["меч", "щит", "лук"], ["зелье", "броня"]],
@@ -72,14 +72,12 @@ class ListMazeGame:
             "пусто": [[], ["камень", "ветка"]],
             "портал": [["магический кристалл"], ["древний артефакт"]]
         }
-        
         if room_type in items_lists:
             possible_items = random.choice(items_lists[room_type])
             return possible_items[:random.randint(0, len(possible_items))]
         return []
-    
     def _get_room_description(self, room_type: str) -> str:
-        """Описание комнаты"""
+        "Описание комнаты"
         descriptions = {
             "пусто": "Пустая комната. Ничего интересного.",
             "сундук": "Комната с сундуком! Возможно, внутри что-то есть.",
@@ -91,14 +89,12 @@ class ListMazeGame:
             "выход": "ВЫХОД ИЗ ЛАБИРИНТА! Но нужен ключ..."
         }
         return descriptions.get(room_type, "Неизвестная комната")
-    
     def display_maze(self) -> None:
-        """Отображение лабиринта"""
+        "Отображение лабиринта"
         n, m = self.maze_size
         print("\n" + "="*50)
         print("ЛАБИРИНТ СПИСКОВ")
         print("="*50)
-        
         for i in range(n):
             row = ""
             for j in range(m):
@@ -114,17 +110,15 @@ class ListMazeGame:
                 else:
                     row += "❓ "
             print(row)
-    
     def show_status(self) -> None:
-        """Показать статус игрока"""
+        "Показать статус игрока"
         print(f"\n--- СТАТУС ---")
         print(f"Здоровье: {self.health}")
         print(f"Ключ: {'ЕСТЬ' if self.has_key else 'НЕТ'}")
         print(f"Инвентарь: {self.inventory}")
         print(f"Посещенные комнаты: {len(self.visited_rooms)}")
-    
     def handle_room_event(self) -> None:
-        """Обработка событий в текущей комнате"""
+        "Обработка событий в текущей комнате"
         x, y = self.player_pos
         room = self.maze[x][y]
         
@@ -152,7 +146,7 @@ class ListMazeGame:
             print(f"\nВы уже были в этой комнате: {room['description']}")
     
     def _fight_monster(self) -> None:
-        """Бой с монстром с использованием методов списков"""
+        "Бой с монстром с использованием методов списков"
         monster_hp = random.randint(20, 50)
         print(f"На вас напал монстр с {monster_hp} HP!")
         
@@ -200,7 +194,7 @@ class ListMazeGame:
             self.inventory.extend(reward)  # extend для добавления награды
     
     def _trigger_trap(self) -> None:
-        """Активация ловушки"""
+        "Активация ловушки"
         trap_damage = random.randint(10, 25)
         print(f"Активирована ловушка! Потеряно {trap_damage} HP")
         self.health -= trap_damage
@@ -212,14 +206,14 @@ class ListMazeGame:
             print(f"Щит поглотил {reduction} урона!")
     
     def _teleport(self) -> None:
-        """Телепортация в случайную комнату"""
+        "Телепортация в случайную комнату"
         print("Портал телепортирует вас в случайную комнату!")
         new_x = random.randint(0, self.maze_size[0] - 1)
         new_y = random.randint(0, self.maze_size[1] - 1)
         self.player_pos = (new_x, new_y)
     
     def _try_escape(self) -> None:
-        """Попытка выйти из лабиринта"""
+        "Попытка выйти из лабиринта"
         if self.has_key:
             print("ПОЗДРАВЛЯЮ! Вы использовали ключ и вышли из лабиринта!")
             return True
@@ -228,7 +222,7 @@ class ListMazeGame:
             return False
     
     def _collect_items(self, items: List[str]) -> None:
-        """Сбор предметов из комнаты"""
+        "Сбор предметов из комнаты"
         if items:
             action = input("Собрать предметы? (да/нет): ").lower()
             if action == "да":
@@ -246,7 +240,7 @@ class ListMazeGame:
                     print(">>> Вы нашли КЛЮЧ! Теперь можно открыть выход! <<<")
     
     def _use_inventory_in_combat(self) -> None:
-        """Использование инвентаря в бою"""
+        "Использование инвентаря в бою"
         if not self.inventory:
             print("Инвентарь пуст!")
             return
@@ -268,7 +262,7 @@ class ListMazeGame:
             print("Предмет не найден в инвентаре!")
     
     def manage_inventory(self) -> None:
-        """Управление инвентарем с использованием методов списков"""
+        "Управление инвентарем с использованием методов списков"
         if not self.inventory:
             print("Инвентарь пуст!")
             return
@@ -362,7 +356,7 @@ class ListMazeGame:
                 print("Неверный выбор!")
     
     def move_player(self) -> bool:
-        """Перемещение игрока по лабиринту"""
+        "Перемещение игрока по лабиринту"
         x, y = self.player_pos
         
         print("\nКуда идти?")
@@ -395,7 +389,7 @@ class ListMazeGame:
         return True
     
     def play(self) -> None:
-        """Основной игровой цикл"""
+        "Основной игровой цикл"
         print("ДОБРО ПОЖАЛОВАТЬ В ЛАБИРИНТ СПИСКОВ!")
         print("Цель: найти выход из лабиринта, используя ключ.")
         print("Изучайте методы работы со списками Python по пути!")
